@@ -195,12 +195,7 @@ const StatusCheckboxGroup: React.FC = () => {
     [selected.length, allValues.length]
   );
 
- const [selected, setSelected] = useState<string[]>([]);
-  const options = useMemo(() => [/* 选项列表 */], []);
-  const allValues = useMemo(() => { /* 逻辑 */ }, [options]);
-  const isAllSelected = useMemo(() => { /* 逻辑 */ }, [selected.length, allValues.length]);
-
-// 事件处理：全选/取消全选（任务8新增）
+ // 任务8：全选/取消全选事件
   const handleSelectAll = useCallback(() => {
     if (isAllSelected) {
       setSelected([]);
@@ -209,19 +204,68 @@ const StatusCheckboxGroup: React.FC = () => {
     }
   }, [isAllSelected, allValues]);
 
-  // 事件处理：单个选项状态切换（任务8新增）
+  // 任务8：单个选项切换事件
   const handleOptionChange = useCallback((value: string) => {
     setSelected(prev => 
       prev.includes(value) 
-        ? prev.filter(v => v !== value)  // 如果已选中，则移除
-        : [...prev, value]                // 如果未选中，则添加
+        ? prev.filter(v => v !== value) 
+        : [...prev, value]
     );
   }, []);
 
-  return <div style={STYLES.CONTAINER}>
-    <Header />
-    {/* 后续补充内容 */}
-  </div>;
+  // 任务9 Part1：新增选项左右分组逻辑（插入此处）
+  const leftOptions = useMemo(() => options.slice(0, 7), [options]);
+  const rightOptions = useMemo(() => options.slice(7), [options]);
+
+  // 任务9 Part2：替换原有return，实现完整渲染（覆盖此处）
+  return (
+    <div style={STYLES.CONTAINER}>
+      {/* 头部标题（任务5组件） */}
+      <Header />
+      
+      {/* 主要内容区域 - 左右分组布局 */}
+      <div style={{ display: "flex", padding: "20px 15px 18px 20px" }}>
+        {/* 左列选项 */}
+        <div style={{ 
+          flex: "0 0 200px",
+          paddingRight: "15px", 
+          borderRight: "1px solid #f0f0f0" 
+        }}>
+          {leftOptions.map((option) => (
+            <CheckboxItem
+              key={option.value}
+              option={option}
+              isChecked={option.value === "ALL" ? isAllSelected : selected.includes(option.value)}
+              onChange={option.value === "ALL" ? handleSelectAll : handleOptionChange}
+              isSelectAll={option.value === "ALL"}
+            />
+          ))}
+        </div>
+
+        {/* 右列选项 */}
+        <div style={{ 
+          flex: "1",
+          paddingLeft: "15px",
+          minWidth: "220px"
+        }}>
+          {rightOptions.map((option) => (
+            <CheckboxItem
+              key={option.value}
+              option={option}
+              isChecked={selected.includes(option.value)}
+              onChange={handleOptionChange}
+            />
+          ))}
+        </div>
+      </div>
+      
+      {/* 底部状态指示器（任务5组件） */}
+      <StatusIndicator 
+        selectedCount={selected.length} 
+        totalCount={allValues.length} 
+      />
+    </div>
+  );
 };
 
 export default StatusCheckboxGroup;
