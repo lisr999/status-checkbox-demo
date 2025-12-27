@@ -155,6 +155,7 @@ const StatusIndicator = ({
   );
 };
 
+
 // ====================== 主组件 ======================（任务6修改/新增代码）
 /**
  * 状态复选框组主组件
@@ -182,6 +183,20 @@ const StatusCheckboxGroup: React.FC = () => {
     { value: "CSO", label: "Coming Soon (CSO)" }
   ], []);
 
+   // 任务7：allValues 计算属性（排除"ALL"的选项值）
+  const allValues = useMemo(() => 
+    options.filter(opt => opt.value !== "ALL").map(opt => opt.value), 
+    [options]
+  );
+
+  // 任务7：isAllSelected 计算属性（判断是否全选）
+  const isAllSelected = useMemo(() => 
+    selected.length === allValues.length && allValues.length > 0, 
+    [selected.length, allValues.length]
+  );
+  // ========== 任务7代码结束 ==========
+
+  // 任务6：return渲染语句（已定义）
   return <div style={STYLES.CONTAINER}>
     <Header />
     {/* 后续补充内容 */}
