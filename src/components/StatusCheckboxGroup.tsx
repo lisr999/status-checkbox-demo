@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useMemo, memo } from 'react';
+ import React, { useState, useCallback, useMemo, memo } from 'react';
 
-// ====================== 常量定义 ======================
-// 将样式常量提取，便于维护和复用
+// 任务2新增：STYLES样式常量
 const STYLES = {
   CONTAINER: {
     border: "1px solid #e5e5e5",
@@ -11,7 +10,6 @@ const STYLES = {
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)"
   } as const,
-  
   HEADER: {
     backgroundColor: "#3a3a3a",
     padding: "14px 20px",
@@ -25,7 +23,6 @@ const STYLES = {
     display: "flex" as const,
     alignItems: "center" as const
   } as const,
-  
   CHECKBOX: {
     width: "16px",
     height: "16px",
@@ -33,14 +30,12 @@ const STYLES = {
     cursor: "pointer" as const,
     accentColor: "#4a90e2" as const
   } as const,
-  
   LABEL_TEXT: {
     fontSize: "13px",
     color: "#333",
     whiteSpace: "nowrap" as const,
     lineHeight: "1.2"
   } as const,
-  
   STATUS_INDICATOR: {
     padding: "10px 20px",
     backgroundColor: "#f8f9fa",
@@ -55,15 +50,14 @@ const STYLES = {
   } as const
 };
 
-// ====================== 类型定义 ======================
+// ====================== 类型定义 ======================（任务3新增代码）
 interface CheckboxItemProps {
   option: { value: string; label: string };
   isChecked: boolean;
   onChange: (value: string) => void;
   isSelectAll?: boolean;
 }
-
-// ====================== 子组件 ======================
+// ====================== 子组件 ======================（任务4新增代码）
 /**
  * 单个复选框选项组件
  * 使用React.memo包装，避免不必要的重新渲染
@@ -110,9 +104,10 @@ const CheckboxItem = memo(({
 });
 
 CheckboxItem.displayName = 'CheckboxItem';
+CheckboxItem.displayName = 'CheckboxItem';
 
 /**
- * 头部标题组件
+ * 头部标题组件（任务5新增代码）
  */
 const Header = () => (
   <div style={STYLES.HEADER}>
@@ -128,7 +123,7 @@ const Header = () => (
 );
 
 /**
- * 状态指示器组件
+ * 状态指示器组件（任务5新增代码）
  */
 const StatusIndicator = ({ 
   selectedCount, 
@@ -160,16 +155,17 @@ const StatusIndicator = ({
   );
 };
 
-// ====================== 主组件 ======================
+
+// ====================== 主组件 ======================（任务6修改/新增代码）
 /**
  * 状态复选框组主组件
  * 提供多选功能，支持全选和分组显示
  */
 const StatusCheckboxGroup: React.FC = () => {
-  // 状态管理：选中的选项值列表
+  // 状态管理：选中的选项值列表（任务6新增）
   const [selected, setSelected] = useState<string[]>([]);
 
-  // 选项配置：使用useMemo缓存，避免每次渲染重新创建
+  // 选项配置：使用useMemo缓存，避免每次渲染重新创建（任务6新增）
   const options = useMemo(() => [
     { value: "ALL", label: "Select All" },
     { value: "NEW", label: "New (NEW)" },
@@ -187,19 +183,19 @@ const StatusCheckboxGroup: React.FC = () => {
     { value: "CSO", label: "Coming Soon (CSO)" }
   ], []);
 
-  // 计算属性：排除"全选"后的所有选项值
+   // 任务7：allValues 计算属性（排除"ALL"的选项值）
   const allValues = useMemo(() => 
     options.filter(opt => opt.value !== "ALL").map(opt => opt.value), 
     [options]
   );
 
-  // 计算属性：判断是否全部选中
+  // 任务7：isAllSelected 计算属性（判断是否全选）
   const isAllSelected = useMemo(() => 
     selected.length === allValues.length && allValues.length > 0, 
     [selected.length, allValues.length]
   );
 
-  // 事件处理：全选/取消全选
+ // 任务8：全选/取消全选事件
   const handleSelectAll = useCallback(() => {
     if (isAllSelected) {
       setSelected([]);
@@ -208,25 +204,26 @@ const StatusCheckboxGroup: React.FC = () => {
     }
   }, [isAllSelected, allValues]);
 
-  // 事件处理：单个选项状态切换
+  // 任务8：单个选项切换事件
   const handleOptionChange = useCallback((value: string) => {
     setSelected(prev => 
       prev.includes(value) 
-        ? prev.filter(v => v !== value)  // 如果已选中，则移除
-        : [...prev, value]                // 如果未选中，则添加
+        ? prev.filter(v => v !== value) 
+        : [...prev, value]
     );
   }, []);
 
-  // 选项分组：左右两列
+  // 任务9 Part1：新增选项左右分组逻辑（插入此处）
   const leftOptions = useMemo(() => options.slice(0, 7), [options]);
   const rightOptions = useMemo(() => options.slice(7), [options]);
 
+  // 任务9 Part2：替换原有return，实现完整渲染（覆盖此处）
   return (
     <div style={STYLES.CONTAINER}>
-      {/* 头部标题 */}
+      {/* 头部标题（任务5组件） */}
       <Header />
       
-      {/* 主要内容区域 */}
+      {/* 主要内容区域 - 左右分组布局 */}
       <div style={{ display: "flex", padding: "20px 15px 18px 20px" }}>
         {/* 左列选项 */}
         <div style={{ 
@@ -262,7 +259,7 @@ const StatusCheckboxGroup: React.FC = () => {
         </div>
       </div>
       
-      {/* 底部状态指示器 */}
+      {/* 底部状态指示器（任务5组件） */}
       <StatusIndicator 
         selectedCount={selected.length} 
         totalCount={allValues.length} 
