@@ -155,9 +155,37 @@ const StatusIndicator = ({
   );
 };
 
-// 主组件（任务1+任务2的代码，保留不变）
+// ====================== 主组件 ======================（任务6修改/新增代码）
+/**
+ * 状态复选框组主组件
+ * 提供多选功能，支持全选和分组显示
+ */
 const StatusCheckboxGroup: React.FC = () => {
-  return <div>Status Checkbox Group</div>;
+  // 状态管理：选中的选项值列表（任务6新增）
+  const [selected, setSelected] = useState<string[]>([]);
+
+  // 选项配置：使用useMemo缓存，避免每次渲染重新创建（任务6新增）
+  const options = useMemo(() => [
+    { value: "ALL", label: "Select All" },
+    { value: "NEW", label: "New (NEW)" },
+    { value: "ACT", label: "Active (ACT)" },
+    { value: "PCG", label: "Price Change (PCG)" },
+    { value: "BOM", label: "Back on Market (BOM)" },
+    { value: "EXT", label: "Extended (EXT)" },
+    { value: "RAC", label: "Reactivated (RAC)" },
+    { value: "CTG", label: "Contingent (CTG)" },
+    { value: "UA", label: "Under Agreement" },
+    { value: "SLD", label: "Sold (SLD)" },
+    { value: "WDN", label: "Temporarily Withdrawn (WDN)" },
+    { value: "EXP", label: "Expired (EXP)" },
+    { value: "CAN", label: "Canceled (CAN)" },
+    { value: "CSO", label: "Coming Soon (CSO)" }
+  ], []);
+
+  return <div style={STYLES.CONTAINER}>
+    <Header />
+    {/* 后续补充内容 */}
+  </div>;
 };
 
 export default StatusCheckboxGroup;
