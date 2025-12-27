@@ -104,6 +104,56 @@ const CheckboxItem = memo(({
 });
 
 CheckboxItem.displayName = 'CheckboxItem';
+CheckboxItem.displayName = 'CheckboxItem';
+
+/**
+ * 头部标题组件（任务5新增代码）
+ */
+const Header = () => (
+  <div style={STYLES.HEADER}>
+    <div style={{
+      width: "4px",
+      height: "16px",
+      backgroundColor: "#4a90e2",
+      marginRight: "10px",
+      borderRadius: "2px"
+    }}></div>
+    Status
+  </div>
+);
+
+/**
+ * 状态指示器组件（任务5新增代码）
+ */
+const StatusIndicator = ({ 
+  selectedCount, 
+  totalCount 
+}: { 
+  selectedCount: number; 
+  totalCount: number 
+}) => {
+  const isAllSelected = selectedCount === totalCount && totalCount > 0;
+  
+  return (
+    <div style={STYLES.STATUS_INDICATOR}>
+      <div>
+        Selected: <span style={{ fontWeight: "600", color: "#4a90e2" }}>
+          {selectedCount} of {totalCount}
+        </span>
+      </div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{
+          width: "6px",
+          height: "6px",
+          borderRadius: "50%",
+          backgroundColor: isAllSelected ? "#28a745" : "#4a90e2",
+          marginRight: "5px"
+        }}></div>
+        {isAllSelected ? "All selected" : "Partial selection"}
+      </div>
+    </div>
+  );
+};
 
 // 主组件（任务1+任务2的代码，保留不变）
 const StatusCheckboxGroup: React.FC = () => {
