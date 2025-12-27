@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es2020", // 提升编译目标至ES2020（支持Set迭代）
+    "downlevelIteration": true, // 兼容低版本环境的迭代特性（兜底）
+    "lib": ["dom", "dom.iterable", "esnext"], // 确保包含ESNext库支持
+    // 其他原有配置（如jsx、module等保留）
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}
