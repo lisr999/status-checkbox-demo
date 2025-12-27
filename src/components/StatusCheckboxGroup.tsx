@@ -194,9 +194,30 @@ const StatusCheckboxGroup: React.FC = () => {
     selected.length === allValues.length && allValues.length > 0, 
     [selected.length, allValues.length]
   );
-  // ========== 任务7代码结束 ==========
 
-  // 任务6：return渲染语句（已定义）
+ const [selected, setSelected] = useState<string[]>([]);
+  const options = useMemo(() => [/* 选项列表 */], []);
+  const allValues = useMemo(() => { /* 逻辑 */ }, [options]);
+  const isAllSelected = useMemo(() => { /* 逻辑 */ }, [selected.length, allValues.length]);
+
+// 事件处理：全选/取消全选（任务8新增）
+  const handleSelectAll = useCallback(() => {
+    if (isAllSelected) {
+      setSelected([]);
+    } else {
+      setSelected([...allValues]);
+    }
+  }, [isAllSelected, allValues]);
+
+  // 事件处理：单个选项状态切换（任务8新增）
+  const handleOptionChange = useCallback((value: string) => {
+    setSelected(prev => 
+      prev.includes(value) 
+        ? prev.filter(v => v !== value)  // 如果已选中，则移除
+        : [...prev, value]                // 如果未选中，则添加
+    );
+  }, []);
+
   return <div style={STYLES.CONTAINER}>
     <Header />
     {/* 后续补充内容 */}
