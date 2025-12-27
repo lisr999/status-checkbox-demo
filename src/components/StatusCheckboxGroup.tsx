@@ -50,6 +50,15 @@ const STYLES = {
   } as const
 };
 
+// ====================== 类型定义 ======================（任务3新增代码）
+interface CheckboxItemProps {
+  option: { value: string; label: string };
+  isChecked: boolean;
+  onChange: (value: string) => void;
+  isSelectAll?: boolean;
+}
+
+// 主组件（任务1+任务2的代码，保留不变）
 const StatusCheckboxGroup: React.FC = () => {
   return <div>Status Checkbox Group</div>;
 };
