@@ -268,4 +268,4 @@ const StatusCheckboxGroup: React.FC = () => {
   );
 };
 
-export default StatusCheckboxGroup;
+export default memo(StatusCheckboxGroup);
