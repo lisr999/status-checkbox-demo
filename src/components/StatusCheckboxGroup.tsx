@@ -57,6 +57,53 @@ interface CheckboxItemProps {
   onChange: (value: string) => void;
   isSelectAll?: boolean;
 }
+// ====================== 子组件 ======================（任务4新增代码）
+/**
+ * 单个复选框选项组件
+ * 使用React.memo包装，避免不必要的重新渲染
+ */
+const CheckboxItem = memo(({ 
+  option, 
+  isChecked, 
+  onChange, 
+  isSelectAll = false 
+}: CheckboxItemProps) => {
+  // 使用useCallback缓存点击事件处理函数
+  const handleChange = useCallback(() => {
+    onChange(option.value);
+  }, [onChange, option.value]);
+
+  return (
+    <div style={{ marginBottom: "12px" }}>
+      <label style={{ 
+        display: "flex", 
+        alignItems: "center", 
+        cursor: "pointer",
+        padding: "2px 0",
+        borderRadius: "4px",
+        transition: "background-color 0.2s",
+        ":hover": {
+          backgroundColor: "#f8f9fa"
+        }
+      } as any}>
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={handleChange}
+          style={STYLES.CHECKBOX}
+        />
+        <span style={{ 
+          ...STYLES.LABEL_TEXT,
+          fontWeight: isSelectAll ? "500" : "400"
+        }}>
+          {option.label}
+        </span>
+      </label>
+    </div>
+  );
+});
+
+CheckboxItem.displayName = 'CheckboxItem';
 
 // 主组件（任务1+任务2的代码，保留不变）
 const StatusCheckboxGroup: React.FC = () => {
